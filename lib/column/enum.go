@@ -20,20 +20,28 @@ func (enum *Enum) Read(decoder *binary.Decoder) (interface{}, error) {
 		err   error
 		ident interface{}
 	)
+	isValue0 := false
 	switch enum.baseType.(type) {
 	case int16:
 		if ident, err = decoder.Int16(); err != nil {
 			return nil, err
+		} else {
+			isValue0 = ident == int16(0)
 		}
 	default:
 		if ident, err = decoder.Int8(); err != nil {
 			return nil, err
+		} else {
+			isValue0 = ident == int8(0)
 		}
 	}
 	if ident, found := enum.vi[ident]; found {
 		return ident, nil
+	} else if isValue0 {
+		//Assume it's nil
+		return nil, nil
 	}
-	return nil, fmt.Errorf("invalid Enum value: %v", ident)
+	return nil, fmt.Errorf("(Read) invalid Enum value: %v(%T) isNull=%v", ident, ident, isValue0)
 }
 
 func (enum *Enum) Write(encoder *binary.Encoder, v interface{}) error {
@@ -119,7 +127,7 @@ func parseEnum(name, chType string) (*Enum, error) {
 			value, err = strconv.ParseInt(strings.TrimSpace(parts[1]), 10, 16)
 		)
 		if err != nil {
-			return nil, fmt.Errorf("invalid Enum value: %v", chType)
+			return nil, fmt.Errorf("(parseEnum) invalid Enum value: %v", chType)
 		}
 		{
 			var (
