@@ -14,9 +14,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/kshvakov/clickhouse/lib/binary"
-	"github.com/kshvakov/clickhouse/lib/data"
-	"github.com/kshvakov/clickhouse/lib/protocol"
+	"github.com/mdspinc/clickhouse/lib/binary"
+	"github.com/mdspinc/clickhouse/lib/data"
+	"github.com/mdspinc/clickhouse/lib/protocol"
 )
 
 const (

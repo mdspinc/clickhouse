@@ -1,7 +1,7 @@
 package column
 
 import (
-	"github.com/kshvakov/clickhouse/lib/binary"
+	"github.com/mdspinc/clickhouse/lib/binary"
 )
 
 type UInt64 struct{ base }

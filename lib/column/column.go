@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kshvakov/clickhouse/lib/binary"
+	"github.com/mdspinc/clickhouse/lib/binary"
 )
 
 type Column interface {

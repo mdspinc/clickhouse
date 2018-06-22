@@ -5,8 +5,8 @@ import (
 	"database/sql/driver"
 	"time"
 
-	"github.com/kshvakov/clickhouse/lib/data"
-	"github.com/kshvakov/clickhouse/lib/types"
+	"github.com/mdspinc/clickhouse/lib/data"
+	"github.com/mdspinc/clickhouse/lib/types"
 )
 
 // Interface for Clickhouse driver

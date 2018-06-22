@@ -9,7 +9,7 @@ import (
 	"net"
 	"reflect"
 
-	"github.com/kshvakov/clickhouse/lib/types"
+	"github.com/mdspinc/clickhouse/lib/types"
 )
 
 var _converter = &converter{}

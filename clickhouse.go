@@ -13,10 +13,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/kshvakov/clickhouse/lib/binary"
-	"github.com/kshvakov/clickhouse/lib/data"
-	"github.com/kshvakov/clickhouse/lib/protocol"
-	"github.com/kshvakov/clickhouse/lib/types"
+	"github.com/mdspinc/clickhouse/lib/binary"
+	"github.com/mdspinc/clickhouse/lib/data"
+	"github.com/mdspinc/clickhouse/lib/protocol"
+	"github.com/mdspinc/clickhouse/lib/types"
 )
 
 var (

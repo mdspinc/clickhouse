@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/kshvakov/clickhouse/lib/types"
+	"github.com/mdspinc/clickhouse/lib/types"
 )
 
 func Array(v interface{}) *types.Array {

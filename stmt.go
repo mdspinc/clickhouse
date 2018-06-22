@@ -5,7 +5,7 @@ import (
 	"context"
 	"database/sql/driver"
 
-	"github.com/kshvakov/clickhouse/lib/data"
+	"github.com/mdspinc/clickhouse/lib/data"
 )
 
 type stmt struct {
