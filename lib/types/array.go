@@ -9,6 +9,9 @@ import (
 	"github.com/mdspinc/clickhouse/lib/binary"
 	"github.com/mdspinc/clickhouse/lib/column"
 	"github.com/mdspinc/clickhouse/lib/writebuffer"
+
+	"bytes"
+	"encoding/gob"
 )
 
 func NewArray(v interface{}) *Array {
@@ -40,6 +43,50 @@ type Array struct {
 	err    error
 	values interface{}
 	column column.Column
+}
+
+
+func init() {
+	gob.Register([]string{})
+	gob.Register([]int8{})
+	gob.Register([]int16{})
+	gob.Register([]int32{})
+	gob.Register([]int64{})
+	gob.Register([]uint8{})
+	gob.Register([]uint16{})
+	gob.Register([]uint32{})
+	gob.Register([]uint64{})
+	gob.Register([]int{})
+	gob.Register([]float32{})
+	gob.Register([]float64{})
+}
+
+func (array *Array) GobDecode(data []byte) error {
+	buf := bytes.NewBuffer(data)
+	dec := gob.NewDecoder(buf)
+	var v interface{}
+	if e := dec.Decode(&v); e == nil {
+		if column, ok := columnsMap[reflect.TypeOf(v)]; ok {
+			array.values = v
+			array.column = column
+		} else {
+			array.err = fmt.Errorf("unsupported array type %T", v)
+		}
+	} else {
+		array.err = e
+	}
+	return array.err
+}
+
+
+func (array *Array) GobEncode() ([]byte, error) {
+	var buf bytes.Buffer
+	enc := gob.NewEncoder(&buf)
+	e := enc.Encode(array.values)
+	if e == nil {
+		return buf.Bytes(), nil
+	}
+	return nil, e
 }
 
 func (array *Array) Value() (driver.Value, error) {
