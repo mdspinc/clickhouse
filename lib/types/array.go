@@ -59,6 +59,7 @@ func init() {
 	gob.Register([]int{})
 	gob.Register([]float32{})
 	gob.Register([]float64{})
+	gob.Register([]time.Time{})
 }
 
 func (array *Array) GobDecode(data []byte) error {
@@ -78,11 +79,38 @@ func (array *Array) GobDecode(data []byte) error {
 	return array.err
 }
 
-
 func (array *Array) GobEncode() ([]byte, error) {
 	var buf bytes.Buffer
 	enc := gob.NewEncoder(&buf)
-	e := enc.Encode(array.values)
+	var e error
+	switch t := array.values.(type) {
+	case []int8:
+		e = enc.Encode(t)
+	case []int16:
+		e = enc.Encode(t)
+	case []int32:
+		e = enc.Encode(t)
+	case []int64:
+		e = enc.Encode(t)
+	case []uint8:
+		e = enc.Encode(t)
+	case []uint16:
+		e = enc.Encode(t)
+	case []uint32:
+		e = enc.Encode(t)
+	case []uint64:
+		e = enc.Encode(t)
+	case []float32:
+		e = enc.Encode(t)
+	case []float64:
+		e = enc.Encode(t)
+	case []string:
+		e = enc.Encode(t)
+	case []time.Time:
+		e = enc.Encode(t)
+	default:
+		e = fmt.Errorf("unsupported array type %T", array.values)
+	}
 	if e == nil {
 		return buf.Bytes(), nil
 	}
